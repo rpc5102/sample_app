@@ -21,8 +21,8 @@ jobs:
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
           git add \*.R
-          git commit -m 'Format code with r-lib/styler' || echo "Nothing to commit, working tree clean"
-          git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "Nothing to commit, working tree clean"
+          git commit -m 'Format code with r-lib/styler' || echo "" > /dev/null
+          git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "" > /dev/null
       - name: lint
         run: Rscript -e 'lintr::lint_dir()'
       - uses: mshick/add-pr-comment@v1
