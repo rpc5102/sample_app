@@ -1,6 +1,4 @@
-on:
-  issue_comment:
-    types: [created]
+on: [pull_request]
 name: Commands
 jobs:
   document:
