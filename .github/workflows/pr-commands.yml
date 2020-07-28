@@ -25,4 +25,10 @@ jobs:
           git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "Nothing to commit, working tree clean"
       - name: lint
         run: Rscript -e 'lintr::lint_dir()'
-        
+      - uses: mshick/add-pr-comment@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          message: |
+            Check the output log for comments: [https://github.com/${{github.repository}}/pull/${{github.event.number}}/files](log)
+          allow-repeats: true
