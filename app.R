@@ -17,8 +17,7 @@ APP_DESCP <<- paste(
 # source("global.R")
 
 # Define UI for App
-uis <- list(
-  tags$head(
+<- list(tags$head(
     tags$link(
       rel = "stylesheet", type = "text/css",
       href = "https://educationshinyappteam.github.io/Style_Guide/theme/boast.css"
