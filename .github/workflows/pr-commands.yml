@@ -14,7 +14,7 @@ jobs:
       - uses: r-lib/actions/setup-r@master
       - name: Install dependencies
         run: Rscript -e 'install.packages(c("lintr", "styler"))'
-      - name: Style
+      - name: style
         run: Rscript -e 'styler::style_dir()'
       - name: commit
         run: |
@@ -22,14 +22,8 @@ jobs:
           git config --local user.name "GitHub Actions"
           git add \*.R
           git commit -m 'Format code with r-lib/styler'
-      - name: Lint
+      - name: lint
         run: Rscript -e 'lintr::lint_dir()'
-      - name: commit
-        run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          git add \*.R
-          git commit -m 'Validate code with jimhester/lintr'
       - uses: r-lib/actions/pr-push@master
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
