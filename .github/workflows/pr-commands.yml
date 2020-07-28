@@ -1,8 +1,8 @@
 on: [pull_request]
 name: Commands
 jobs:
-  style:
-    name: style
+  check:
+    name: check
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -22,9 +22,6 @@ jobs:
           git config --local user.name "GitHub Actions"
           git add \*.R
           git commit -m 'Format code with r-lib/styler'
-      - uses: r-lib/actions/pr-push@master
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Lint
         run: Rscript -e 'lintr::lint_dir()'
       - name: commit
