@@ -34,7 +34,7 @@ jobs:
       - name: lint
         run: LINT_RESULTS=$(Rscript -e 'lintr::lint_dir()')
       - id: set-matrix
-        run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
+        run: echo "::set-output name=matrix::$LINT_RESULTS"
       - name: Dump matrix context
         env:
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
@@ -45,5 +45,5 @@ jobs:
         with:
           message: |
             Check the output log for comments: [https://github.com/${{github.repository}}/pull/${{github.event.number}}/files](https://github.com/${{github.repository}}/pull/${{github.event.number}}/files).
-            ${{ LINT_RESULTS }}
+            ${{ steps.set-matrix.outputs.matrix }}
           allow-repeats: true
