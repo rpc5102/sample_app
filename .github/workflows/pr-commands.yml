@@ -33,7 +33,7 @@ jobs:
         run: |
           Rscript -e 'lintr::lint_dir()'
           LINT_RESULTS=$(Rscript -e 'lintr::lint_dir()')
-          LINT_RESULTS=`echo $LINT_RESULTS | awk '{gsub(/::warning/,"\n - 🔶")}1'`
+          LINT_RESULTS=`echo $LINT_RESULTS | awk '{gsub(/::warning/,"\n\n- 🔶")}1'`
           ENV_RESULTS='::set-env name=results::'
           ENV_RESULTS+=${LINT_RESULTS}
           echo $LINT_RESULTS
