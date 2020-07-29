@@ -6,6 +6,8 @@ jobs:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    outputs:
+      matrix: ${{ steps.lint.outputs.results }}
     steps:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/pr-fetch@master
@@ -29,14 +31,19 @@ jobs:
           git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "" > /dev/null
       - name: lint
         run: |
+          Rscript -e 'lintr::lint_dir()'
           LINT_RESULTS=$(Rscript -e 'lintr::lint_dir()')
-          echo '::set-output name=results::${LINT_RESULTS}'
+          LINT_RESULTS=`echo $LINT_RESULTS | awk '{gsub(/::warning/,"\n\n\n🔶")}1'`
+          ENV_RESULTS='::set-env name=results::'
+          ENV_RESULTS+=${LINT_RESULTS}
+          echo $LINT_RESULTS
+          echo $ENV_RESULTS 
       - uses: mshick/add-pr-comment@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           message: |
             Check the output log for comments: [https://github.com/${{github.repository}}/pull/${{github.event.number}}/files](https://github.com/${{github.repository}}/pull/${{github.event.number}}/files).
-            ${{ env.SELECTED_COLOR }}
-            ${{ steps.lint.outputs.results }}
+            
+            ${{ env.results }}
           allow-repeats: true

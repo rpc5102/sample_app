@@ -17,7 +17,7 @@ APP_DESCP <<- paste(
 # source("global.R")
 
 # Define UI for App
-uis <- list(
+ui <- list(
 tags$head(
 tags$link(
 rel = "stylesheet", type = "text/css",
