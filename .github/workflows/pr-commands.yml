@@ -32,7 +32,7 @@ jobs:
           git commit -m 'Format code with r-lib/styler' || echo "" > /dev/null
           git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "" > /dev/null
       - name: lint
-        run: Rscript -e 'lintr::lint_dir()'
+        run: LINT_RESULTS=$(Rscript -e 'lintr::lint_dir()')
       - id: set-matrix
         run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
       - name: Dump matrix context
@@ -45,5 +45,5 @@ jobs:
         with:
           message: |
             Check the output log for comments: [https://github.com/${{github.repository}}/pull/${{github.event.number}}/files](https://github.com/${{github.repository}}/pull/${{github.event.number}}/files).
-            ${{ steps.set-matrix.outputs.matrix }}
+            ${{ LINT_RESULTS }}
           allow-repeats: true
