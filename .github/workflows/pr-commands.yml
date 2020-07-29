@@ -8,7 +8,6 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/core@v1
       - uses: r-lib/actions/pr-fetch@master
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
