@@ -8,6 +8,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/toolkit@v1
       - uses: r-lib/actions/pr-fetch@master
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -16,6 +17,10 @@ jobs:
         run: Rscript -e 'install.packages(c("lintr", "styler"))'
       - name: style
         run: Rscript -e 'styler::style_dir()'
+      - name: Set selected color
+        run: echo '::set-env name=SELECTED_COLOR::green'
+      - name: Get color
+        run: echo 'The selected color is' $SELECTED_COLOR
       - name: commit
         run: |
           git config --local user.email "actions@github.com"
