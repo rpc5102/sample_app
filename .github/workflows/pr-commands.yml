@@ -32,7 +32,8 @@ jobs:
       - name: lint
         run: |
           LINT_RESULTS=$(Rscript -e 'lintr::lint_dir()')
-          ENV_RESULTS='::set-env name=results::${LINT_RESULTS}'
+          ENV_RESULTS='::set-env name=results::'
+          ENV_RESULTS+=${LINT_RESULTS}
           echo $LINT_RESULTS
           echo $ENV_RESULTS
       - uses: mshick/add-pr-comment@v1
