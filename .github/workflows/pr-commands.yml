@@ -20,6 +20,8 @@ jobs:
         run: echo '::set-env name=SELECTED_COLOR::green'
       - name: Get color
         run: echo 'The selected color is' $SELECTED_COLOR
+      - name: Test Output
+        run: echo "::set-output name=action_fruit::strawberry"
       - name: commit
         run: |
           git config --local user.email "actions@github.com"
