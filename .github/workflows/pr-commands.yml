@@ -32,10 +32,11 @@ jobs:
       - name: lint
         run: |
           LINT_RESULTS=$(Rscript -e 'lintr::lint_dir()')
+          LINT_RESULTS=`echo $LINT_RESULTS | awk '{gsub(/::warning/,"\n")}1'`
           ENV_RESULTS='::set-env name=results::'
           ENV_RESULTS+=${LINT_RESULTS}
           echo $LINT_RESULTS
-          echo $ENV_RESULTS
+          echo $ENV_RESULTS 
       - uses: mshick/add-pr-comment@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
