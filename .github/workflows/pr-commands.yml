@@ -29,11 +29,15 @@ jobs:
           git commit -m 'Format code with r-lib/styler' || echo "" > /dev/null
           git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "" > /dev/null
       - name: lint
-        run: Rscript -e 'lintr::lint_dir()'
+        run: |
+          LINT_RESULTS=$(Rscript -e 'lintr::lint_dir()')
+          ::set-output name=results::${LINT_RESULTS}
       - uses: mshick/add-pr-comment@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           message: |
             Check the output log for comments: [https://github.com/${{github.repository}}/pull/${{github.event.number}}/files](https://github.com/${{github.repository}}/pull/${{github.event.number}}/files).
+            ${{ env.SELECTED_COLOR }}
+            ${{ steps.lint.outputs.results }}
           allow-repeats: true
